@@ -73,6 +73,10 @@ export class Card extends Component<ICard> {
 		}
   }
 
+  get price(): number {
+    return Number(this._price.textContent || '');
+  }
+
   set button(value: string) {
 		this.setText(this._button, value);
 	}
