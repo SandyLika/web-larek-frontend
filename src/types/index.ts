@@ -21,22 +21,36 @@ export interface IActions {
 }
 //описание товара
 export interface IProduct {
-	id: string;
+  id: string;
 	title: string;
 	price: number | null;
 	category: string;
 	image: string;
 	description: string;
   inBasket: boolean;
+  //index?: string;
+  //buttonTitle? : string;
 }
-//описание заказа
-export interface IOrder {
-  item:string[];//товары в заказе
+
+export interface ICard extends IProduct {
+  index?: string;
+  buttonTitle? : string;
+}
+// Данные доставки
+export interface IDeliveryForm {
+  payment: string; //способ оплаты
+  address: string; //адрес покупателя
+}
+
+// контактные данные покупателя
+export interface IContactForm {
+  email: string; //почта покупателя
+  phone: string; //телефон покупателя
+}
+//описание всего заказа
+export interface IOrder extends IDeliveryForm, IContactForm {
+  items:string[];//товары в заказе
   total: number;//итоговая сумма заказа
-  payment: string;//способ оплаты
-  address: string;//адрес
-  email:string;//почта
-  phone:string;//телефон
 }
 //описание результата заказа
 export interface IOrderResult {
@@ -52,3 +66,14 @@ export interface IBasket {
   clearBasket():void;//очистить корзину
   getTotalPrice():number; //посчитать итоговую сумму
 }
+
+export interface ISuccess {
+  total: number;
+}
+
+export interface ISuccessActions {
+  onClick: () => void;
+}
+
+//ошибки форм
+export type FormErrors = Partial<Record<keyof IOrder, string>>;
