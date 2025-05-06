@@ -109,7 +109,7 @@ events.on('counter:changed', (item: string[]) => {
 })
 
 // Открыть форму доставкки заказа
-events.on('order:open', () => {
+events.on('orderd:open', () => {
   modal.render({
       content: delivery.render({
           payment: '',
@@ -127,12 +127,12 @@ events.on('formErrors:change', (errors: Partial<IOrder>) => {
   delivery.errors = Object.values({phone, email}).filter(i => !!i).join('; ');
 });
 
-events.on(/^order\..*:change/, (data: { field: keyof IDeliveryForm, value: string }) => {
+events.on(/^orderd\..*:change/, (data: { field: keyof IDeliveryForm, value: string }) => {
   appData.setDeliveryField(data.field, data.value);
 });
 
 // Открыть форму контактов заказа
-events.on('order:open', () => {
+events.on('orderc:open', () => {
   modal.render({
       content: contact.render({
           email: '',
@@ -150,7 +150,7 @@ events.on('formErrors:change', (errors: Partial<IOrder>) => {
   contact.errors = Object.values({phone, email}).filter(i => !!i).join('; ');
 });
 
-events.on(/^order\..*:change/, (data: { field: keyof IContactForm, value: string }) => {
+events.on(/^orderc\..*:change/, (data: { field: keyof IContactForm, value: string }) => {
   appData.setContactField(data.field, data.value);
 });
 
