@@ -13,8 +13,10 @@ import { OrderContact, OrderDelivery } from './components/Order';
 import { Card } from './components/Card';
 import { Success } from './components/common/Success';
 import { IOrder , IContactForm, IDeliveryForm} from './types';
+
 const events = new EventEmitter();
 const api = new LarekAPI(CDN_URL, API_URL);
+
 //шаблоны
 const successTemplate = ensureElement<HTMLTemplateElement>('#success');
 const cardCatalogTemplate = ensureElement<HTMLTemplateElement>('#card-catalog');
@@ -58,7 +60,11 @@ events.on('card:select', (item: Product) => {
 events.on('preview:changed', (item: Product) => {
   const card = new Card(cloneTemplate(cardPreviewTemplate), {
     onClick: () => {
-      events.emit('product:toggle', item);
+      if (!item.inBasket) {
+				events.emit('product:add', item);
+			} else {
+				events.emit('product:remove', item);
+			}
       card.changeButtonTitle(item.inBasket);
     }
   });
@@ -73,6 +79,7 @@ events.on('preview:changed', (item: Product) => {
     })
   })
 })
+
 //открытие корзины
 events.on('basket:open', () => {
   modal.render({
@@ -84,13 +91,29 @@ events.on('basket:open', () => {
 events.on('product:add', (item: Product) => {
 	item.inBasket = true;
 	appData.addToBasket(item);
-
+  modal.close();
 });
 
 // Удаление товара из корзины
 events.on('product:remove', (item: Product) => {
 	item.inBasket = false;
 	appData.removeFromBasket(item);
+  modal.close();
+});
+
+events.on('basket:change', () => {
+	basket.items = appData.basket.map((item, index) => {
+		const card = new Card(cloneTemplate(cardBasketTemplate), {
+			onClick: () => {
+				events.emit('basket:remove', item);
+			},
+		});
+		return card.render({
+			index: (index + 1).toString(),
+			title: item.title,
+			price: item.price,
+		});
+	});
 });
 
 // Отображение модального окна корзины
@@ -122,9 +145,9 @@ events.on('orderd:open', () => {
 
 // Изменилось состояние валидации формы
 events.on('formErrors:change', (errors: Partial<IOrder>) => {
-  const { email, phone } = errors;
-  delivery.valid = !email && !phone;
-  delivery.errors = Object.values({phone, email}).filter(i => !!i).join('; ');
+  const { payment, address } = errors;
+  delivery.valid = !payment && !address;
+  delivery.errors = Object.values({payment, address}).filter(i => !!i).join('; ');
 });
 
 events.on(/^orderd\..*:change/, (data: { field: keyof IDeliveryForm, value: string }) => {
@@ -184,7 +207,7 @@ events.on('modal:close', () => {
   page.locked = false;
 });
 
-// Получаем лоты с сервера
+// Получаем товары с сервера
 api.getProductList()
   .then(appData.setCatalog.bind(appData))
   .catch(err => {

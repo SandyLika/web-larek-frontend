@@ -16,13 +16,13 @@ export class Card extends Component<ICard> {
   constructor( container: HTMLElement, actions?: IActions) {
       super(container);
 
-      this._title = ensureElement<HTMLElement>(`.__title`, container);
+      this._title = ensureElement<HTMLElement>(`.card__title`, container);
       this._price =  container.querySelector('.card__price');
-      this._image = container.querySelector('')
-      this._button = container.querySelector(`.__button`);
-      this._description = container.querySelector(`.__description`);
-      this._category = container.querySelector('')
-      this._index = container.querySelector('')
+      this._image = container.querySelector('.card__image')
+      this._button = container.querySelector(`.card__button`);
+      this._description = container.querySelector(`.card__text`);
+      this._category = container.querySelector('.card__category')
+      this._index = container.querySelector('basket__item-index')
       
       if (actions?.onClick) {
           if (this._button) {

@@ -10,19 +10,19 @@ export class LarekAPI extends Api implements IApi {
   }
 
   getProductItem(id: string): Promise<IProduct> {
-      return this.get(`/lot/${id}`).then(
+      return this.get(`/product/${id}`).then(
           (item: IProduct) => ({
               ...item,
-              image: this.cdn + item.image,
+              image: this.cdn + item.image.replace(".svg", ".png"),
           })
       );
   }
 
   getProductList(): Promise<IProduct[]> {
-      return this.get('/lot').then((data: ApiListResponse<IProduct>) =>
+      return this.get('/product').then((data: ApiListResponse<IProduct>) =>
           data.items.map((item) => ({
               ...item,
-              image: this.cdn + item.image
+              image: this.cdn + item.image.replace(".svg", ".png")
           }))
       );
   }
