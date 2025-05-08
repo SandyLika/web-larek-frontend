@@ -75,7 +75,7 @@ events.on('preview:changed', (item: Product) => {
       image: item.image,
       price: item.price,
       category: item.category,
-      
+      inBasket: item.inBasket,
     })
   })
 })
@@ -118,7 +118,7 @@ events.on('basket:change', () => {
 
 // Отображение модального окна корзины
 events.on('basket:select', () => {
-	// Активируем кнопку "Оформить" если в корзину добавлен товар
+	// Активируем кнопку oформить если в корзину добавлен товар
 	basket.selected = appData.basket.map((item) => item.id); 
 	modal.render({
 		content: basket.render({
