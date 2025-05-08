@@ -16,7 +16,7 @@ export class Product extends Model<IProduct> {
 }
 
 export class AppState extends Model<IAppState> {
-  basket: Product[];
+  basket: Product[]=[];
   catalog: Product[];
   loading: boolean;
   order: IOrder = {
@@ -56,10 +56,8 @@ export class AppState extends Model<IAppState> {
   }
 
   addToBasket(item: Product){
-    if(this.basket.indexOf(item) < 0){
       this.basket.push(item);
       this.emitChanges('basket:change', item);
-    }
   }
 
   removeFromBasket(item: Product) {

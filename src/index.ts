@@ -105,7 +105,7 @@ events.on('basket:change', () => {
 	basket.items = appData.basket.map((item, index) => {
 		const card = new Card(cloneTemplate(cardBasketTemplate), {
 			onClick: () => {
-				events.emit('basket:remove', item);
+				events.emit('product:remove', item);
 			},
 		});
 		return card.render({
