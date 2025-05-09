@@ -22,7 +22,7 @@ export class Card extends Component<ICard> {
       this._button = container.querySelector(`.card__button`);
       this._description = container.querySelector(`.card__text`);
       this._category = container.querySelector('.card__category')
-      this._index = container.querySelector('basket__item-index')
+      this._index = container.querySelector('.basket__item-index')
       console.log(this._index)
       if (actions?.onClick) {
           if (this._button) {
