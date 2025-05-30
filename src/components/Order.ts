@@ -18,7 +18,6 @@ export class OrderContact extends Form<IContactForm> {
 			this.chek()
 		});
         this.phoneInput.addEventListener('input', () => {
-            console.log(this.phoneInput.value,'o')
 			this.chek()
 		});
 
@@ -38,23 +37,11 @@ export class OrderContact extends Form<IContactForm> {
 
     set phone(value: string) {
         (this.container.elements.namedItem('phone') as HTMLInputElement).value = value;
-        console.log(value,'!');
     }
-
-    // get phone(): string {
-    //     console.log(this.phoneInput.textContent.toString())
-    //     return this.phoneInput.textContent || 'pho';
-    // }
 
     set email(value: string) {
         (this.container.elements.namedItem('email') as HTMLInputElement).value = value;
     }
-
-    // get email(): string {
-    //     return this.emailInput.textContent || 'em';
-    // }
-
-
 }
 
 export class OrderDelivery extends Form<IDeliveryForm>  {
@@ -104,19 +91,6 @@ export class OrderDelivery extends Form<IDeliveryForm>  {
     set address(value: string) {
         (this.container.elements.namedItem('address') as HTMLInputElement).value = value;
       }
-
-
-    //   get address(): string {
-    //     // Возвращаем либо сохраненное значение, либо значение из инпута
-    //     return this._address || 
-    //            (this._addressInput ? this._addressInput.value : '');
-    // }
-    //   get address(): string {
-    //     return this._address;
-    // }
-    // get address(): string {
-    //     return this._addressInput.textContent || 'ad';
-    // }
     set valid(value: boolean) {
 	    this._submit.disabled = !value;
 	}

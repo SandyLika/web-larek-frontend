@@ -22,13 +22,11 @@ export class Form<T> extends Component<IFormState> {
             const field = target.name as keyof T;
             const value = target.value;
             this.onInputChange(field, value);
-            console.log(this.container.name)
         });
 
         this.container.addEventListener('submit', (e: Event) => {
             e.preventDefault();
             this.events.emit(`${this.container.name}:submit`);
-            console.log(this.container.name)
         });
     }
 
@@ -37,7 +35,6 @@ export class Form<T> extends Component<IFormState> {
             field,
             value
         });
-        console.log(value);
     }
 
     set valid(value: boolean) {

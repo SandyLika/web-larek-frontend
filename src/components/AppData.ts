@@ -105,15 +105,4 @@ export class AppState extends Model<IAppState> {
     this.events.emit('formContactErrors:change', this.formErrors);
     return Object.keys(errors).length === 0;
   }
-
-  getOrder(): IOrder {
-    return {
-      payment: this.order.payment,
-      email: this.order.email,
-      phone: this.order.phone,
-      address: this.order.address,
-      total: this.order.total,
-      items: this.order.items,
-    };
-  }
 }

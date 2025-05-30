@@ -166,9 +166,6 @@ events.on('orderc:open', () => {
           errors: []
       })
   });
-  //appData.order.email=contact.email
-  //appData.order.phone=contact.phone
-  console.log(appData.order,'1')
 });
 
 // Изменилось состояние валидации формы
@@ -182,22 +179,6 @@ events.on(/^contacts\..*:change/, (data: { field: keyof IContactForm, value: str
   appData.setContactField(data.field, data.value);
 });
 
-// // Событие заполненности формы доставки
-// events.on('delivery:ready' , () => {
-//   delivery.valid = true;
-// })
-
-// // Событие заполненности формы контактов
-// events.on('contact:ready', () => {
-//   contact.valid = true;
-// })
-
-// const orderData = {
-//   ...appData.order, // здесь взяли данные пользователя, телефон, адрес и все такое
-//   total: appData.getTotal(), // здесь сумму товаров взяли
-//   items: appData.basket.map((item) => item.id) // создали массив id 
-// }
-
 const success = new Success(cloneTemplate(successTemplate), {
   onClick: () => {
       modal.close();
@@ -205,7 +186,6 @@ const success = new Success(cloneTemplate(successTemplate), {
 });
 //oформление закaза
 events.on('order:submit', () => {
-  console.log(contact.phone,appData.order, '2')
   const orderData = {
     ...appData.order, // здесь взяли данные пользователя, телефон, адрес и все такое
     total: appData.getTotal(), // здесь сумму товаров взяли
