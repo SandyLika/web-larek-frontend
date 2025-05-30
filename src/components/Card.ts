@@ -23,7 +23,6 @@ export class Card extends Component<ICard> {
       this._description = container.querySelector(`.card__text`);
       this._category = container.querySelector('.card__category')
       this._index = container.querySelector('.basket__item-index')
-      console.log(this._index)
       if (actions?.onClick) {
           if (this._button) {
               this._button.addEventListener('click', actions.onClick);
@@ -83,7 +82,7 @@ export class Card extends Component<ICard> {
   set index(value: string) {
     if (this._index){
     this._index.textContent = value;
-    console.log(this._index)}
+    }
   }
 
   set inBasket(value: boolean) {

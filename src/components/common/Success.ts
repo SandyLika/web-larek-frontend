@@ -9,7 +9,7 @@ export class Success extends Component<ISuccess> {
   constructor(container: HTMLElement, actions: ISuccessActions) {
       super(container);
 
-      this._close = ensureElement<HTMLElement>('.state__action', this.container);
+      this._close = ensureElement<HTMLElement>('.order-success__close', this.container);
       this._total = ensureElement<HTMLElement>('.order-success__description', this.container);
 
       if (actions?.onClick) {

@@ -38,11 +38,10 @@ export class AppState extends Model<IAppState> {
   }
 
   getTotal() {
-    let orderSum = 0;
-    this.basket.forEach((item) => {
-			orderSum += item.price;
-		});
-    return orderSum;
+    const total = this.basket.reduce((orderSum, item) =>{
+      return orderSum += item.price;
+    },0);
+  return total;
   }
 
   setCatalog(items: IProduct[]) {
@@ -58,11 +57,13 @@ export class AppState extends Model<IAppState> {
   addToBasket(item: Product){
       this.basket.push(item);
       this.emitChanges('basket:change', item);
+      this.emitChanges('counter:changed', this.basket);
   }
 
   removeFromBasket(item: Product) {
     this.basket = this.basket.filter((it) => it != item);
     this.emitChanges('basket:change', item);
+    this.emitChanges('counter:changed', this.basket);
   }
 
   busketItemsCount() {
@@ -72,17 +73,14 @@ export class AppState extends Model<IAppState> {
   setDeliveryField(field: keyof IDeliveryForm, value: string) {
     this.order[field] = value;
 
-    if (this.validateDeliveryField()) {
-      this.events.emit('delivery:ready', this.order);
-    }
+    this.validateDeliveryField()
   }
 
   setContactField(field: keyof IContactForm, value: string) {
     this.order[field] = value;
 
-    if (this.validateContactField()) {
-      this.events.emit('contact:ready', this.order);
-    }
+    this.validateContactField()
+     
   }
 
   validateDeliveryField() {
@@ -91,7 +89,8 @@ export class AppState extends Model<IAppState> {
         errors.email = 'Необходимо указать адрес';
     }
     this.formErrors = errors;
-    this.events.emit('formErrors:change', this.formErrors);      return Object.keys(errors).length === 0;
+    this.events.emit('formDeliveryErrors:change', this.formErrors);      
+    return Object.keys(errors).length === 0;
   }
 
   validateContactField() {
@@ -103,7 +102,18 @@ export class AppState extends Model<IAppState> {
       errors.email = 'Необходимо указать телефон';
     }
     this.formErrors = errors;
-    this.events.emit('formErrors:change', this.formErrors);
+    this.events.emit('formContactErrors:change', this.formErrors);
     return Object.keys(errors).length === 0;
+  }
+
+  getOrder(): IOrder {
+    return {
+      payment: this.order.payment,
+      email: this.order.email,
+      phone: this.order.phone,
+      address: this.order.address,
+      total: this.order.total,
+      items: this.order.items,
+    };
   }
 }
