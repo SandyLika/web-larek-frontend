@@ -157,7 +157,7 @@ events.on(/^order\..*:change/, (data: { field: keyof IDeliveryForm, value: strin
 });
 
 // Открыть форму контактов заказа
-events.on('orderc:open', () => {
+events.on('order:submit', () => {
   modal.render({
       content: contact.render({
           email: '',
@@ -182,10 +182,11 @@ events.on(/^contacts\..*:change/, (data: { field: keyof IContactForm, value: str
 const success = new Success(cloneTemplate(successTemplate), {
   onClick: () => {
       modal.close();
+      appData.clearBasket();
   }
 });
 //oформление закaза
-events.on('order:submit', () => {
+events.on('contacts:submit', () => {
   const orderData = {
     ...appData.order, // здесь взяли данные пользователя, телефон, адрес и все такое
     total: appData.getTotal(), // здесь сумму товаров взяли
@@ -193,7 +194,7 @@ events.on('order:submit', () => {
   }
   api.orderProducts(orderData)
       .then((result) => {
-          appData.clearBasket();
+          //appData.clearBasket();
           modal.render({
               content: success.render({
                 total: result.total
@@ -203,6 +204,7 @@ events.on('order:submit', () => {
       .catch(err => {
           console.error(err);
       });
+      //appData.clearBasket();
 });
 // Блокируем прокрутку страницы если открыта модалка
 events.on('modal:open', () => {

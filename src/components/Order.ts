@@ -21,10 +21,10 @@ export class OrderContact extends Form<IContactForm> {
 			this.chek()
 		});
 
-        this.container.addEventListener('submit', (el) => {
-            el.preventDefault();
-            events.emit('order:submit')
-        })
+        // this.container.addEventListener('submit', (el) => {
+        //     el.preventDefault();
+        //     events.emit('order:submit')
+        // })
     }
 
     chek() {
@@ -82,16 +82,16 @@ export class OrderDelivery extends Form<IDeliveryForm>  {
 		});
 
         
-        this._submit.addEventListener('click', (el) => {
-            el.preventDefault();
-            events.emit('orderc:open')
-        })
+        // this._submit.addEventListener('click', (el) => {
+        //     el.preventDefault();
+        //     events.emit('orderc:open')
+        // })
     }
 
     set address(value: string) {
         (this.container.elements.namedItem('address') as HTMLInputElement).value = value;
       }
-    set valid(value: boolean) {
-	    this._submit.disabled = !value;
-	}
+    // set valid(value: boolean) {
+	//     this._submit.disabled = !value;
+	// }
 }

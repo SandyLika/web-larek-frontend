@@ -67,7 +67,8 @@ export class Card extends Component<ICard> {
   set price(value: number | null) {
     this.setText(this._price, (value) ? `${value.toString()} синапсов` : 'Бесценно');
     if (value === null && this._button) {
-			this._button.disabled = true;
+			//this._button.disabled = true;
+      this.setDisabled(this._button, true)
 		}
   }
 
@@ -81,7 +82,8 @@ export class Card extends Component<ICard> {
 
   set index(value: string) {
     if (this._index){
-    this._index.textContent = value;
+    //this._index.textContent = value;
+    this.setText(this._index, value)
     }
   }
 

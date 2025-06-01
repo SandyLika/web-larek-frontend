@@ -35,6 +35,8 @@ export class AppState extends Model<IAppState> {
     this.catalog.forEach((item) => {
 			item.inBasket = false;
 		});
+    this.emitChanges('counter:changed', this.basket);
+    this.emitChanges('basket:change', this.basket);
   }
 
   getTotal() {
