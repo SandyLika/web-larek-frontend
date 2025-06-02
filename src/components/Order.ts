@@ -55,24 +55,17 @@ export class OrderDelivery extends Form<IDeliveryForm>  {
 
         this._OnlinePayment = ensureElement<HTMLButtonElement>('button[name="card"]', this.container);
         this._ReceiptPayment = ensureElement<HTMLButtonElement>('button[name="cash"]', this.container);
-        this._OnlinePayment.classList.add('button_alt-active');
+        //this._OnlinePayment.classList.add('button_alt-active');
+        this.toggleClass(this._OnlinePayment,'button_alt-active', true )
     
         this._OnlinePayment.addEventListener('click', () => {
-
-			this._OnlinePayment.classList.remove('button_alt');
-			this._OnlinePayment.classList.add('button_alt-active');
-			this._ReceiptPayment.classList.remove('button_alt-active');
-			this._ReceiptPayment.classList.add('button_alt');
-			
+            this.toggleCard()
+            this.toggleCash(false)
 		});
 
 		this._ReceiptPayment.addEventListener('click', () => {
-
-			this._ReceiptPayment.classList.remove('button_alt');
-			this._ReceiptPayment.classList.add('button_alt-active');
-			this._OnlinePayment.classList.remove('button_alt-active');
-			this._OnlinePayment.classList.add('button_alt');
-			
+            this.toggleCash()
+            this.toggleCard(false)
 		});
 
         this._addressInput = ensureElement<HTMLInputElement>('input[name="address"]', this.container);
@@ -86,6 +79,15 @@ export class OrderDelivery extends Form<IDeliveryForm>  {
         //     el.preventDefault();
         //     events.emit('orderc:open')
         // })
+    }
+
+
+    toggleCard(state: boolean = true) {
+        this.toggleClass(this._OnlinePayment, 'button_alt-active', state);
+    }
+
+    toggleCash(state: boolean = true) {
+        this.toggleClass(this._ReceiptPayment, 'button_alt-active', state);
     }
 
     set address(value: string) {
